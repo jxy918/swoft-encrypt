@@ -2,22 +2,19 @@
 ## 配置文件
 在/config/properties/app 中添加配置:
 ```php
+    'components'=>[
+        'custom'=>[
+            "Swoft\\Encrypt" => '@vendor/zcmzc/swoft-encrypt/src/'
+        ],
+    ],
     'encrypt'      => [
         'padding'   => OPENSSL_PKCS1_PADDING,
         'before'    => \Swoft\Encrypt\Bean\Annotation\Encrypt::BEFORE_DECRYPT,
         'after'     => \Swoft\Encrypt\Bean\Annotation\Encrypt::AFTER_ENCRYPT,
         'publicKey' => '@resources/key/rsa_public_key.pem',
         'privateKey'=> '@resources/key/rsa_private_key.pem',
-    ],
-```
-其中公钥私钥是必填哦~
->PS 由于暂时没加入官方组件, 需要手动在composer.json 中修改...
-
-        "psr-4": {
-            "App\\": "app/",
-            "Swoft\\Encrypt\\": "vendor/swoft/encrypt/src/"
-        },
-        
+    ]
+``` 
 ## 注解调用
 新建控制器`App\Controllers\EncryptController`
 ```php
