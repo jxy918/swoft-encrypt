@@ -1,10 +1,12 @@
 # 如何使用
+## 安装组件
+>composer require zcmzc/swoft-encrypt
 ## 配置文件
 在/config/properties/app 中添加配置:
 ```php
-    'components'=>[
-        'custom'=>[
-            "Swoft\\Encrypt" => '@vendor/zcmzc/swoft-encrypt/src/'
+    'components' => [
+        'custom' => [
+            "Swoft\\Encrypt" => dirname(dirname(__DIR__)).'/vendor/zcmzc/swoft-encrypt/src/'
         ],
     ],
     'encrypt'      => [
@@ -77,6 +79,7 @@ class EncryptController
 优先级为`方法注解`>`类注解`>`config/app`
 
 前置、后置可设置为空字符串,覆盖低优先级的配置
+> 注解调用时,request()方法里是修改后的,方法注入的`Request $request`是未修改的
 
 ## 中间件调用
 `App\Controllers\EncryptController`添加代码
@@ -98,4 +101,4 @@ class EncryptController
         return ['name' => '小红', 'age' => 6666];
     }
 ```
-中间件要在控制器形参中注入 `Request $request`, 如若调用`request()`方法,获取的则是未操作前的请求对象
+>中间件调用时,方法注入的`Request $request`是修改后的,`request()`方法获取的则是未操作前的请求对象
