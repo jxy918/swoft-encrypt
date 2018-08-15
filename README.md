@@ -6,7 +6,7 @@
 ```php
     'components' => [
         'custom' => [
-            "Swoft\\Encrypt" => dirname(dirname(__DIR__)).'/vendor/zcmzc/swoft-encrypt/src/'
+            "Swoft\\Encrypt"
         ],
     ],
     'encrypt'      => [
