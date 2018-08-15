@@ -6,7 +6,7 @@
         "swoft",
         "encrypt"
     ],
-    "description": "encrypt component for swoft",
+    "description": "Swoft 加密/签名组件",
     "license": "Apache-2.0",
     "require": {
         "swoft/http-server": "^1.0",
