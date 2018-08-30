@@ -41,6 +41,10 @@ class EncryptHandler implements EncryptHandlerInterface
      */
     private $secretKey;
 
+    /**
+     * @param $data
+     * @return string
+     */
     public function encrypt($data): string
     {
         openssl_public_encrypt(

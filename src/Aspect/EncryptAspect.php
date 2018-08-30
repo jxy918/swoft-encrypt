@@ -30,6 +30,9 @@ use Swoft\Encrypt\Handler\EncryptHandler;
  */
 class EncryptAspect
 {
+    private $classAnnotation;
+
+    private $annotation;
     /**
      * @Around()
      * @param ProceedingJoinPoint $proceedingJoinPoint
@@ -37,14 +40,12 @@ class EncryptAspect
      */
     public function around(ProceedingJoinPoint $proceedingJoinPoint)
     {
-        /* @var Encrypt $classAnnotation*/
-        /* @var Encrypt $annotation*/
-        list($classAnnotation, $annotation) = $this->getAnnotation($proceedingJoinPoint);
+        list($this->classAnnotation, $this->annotation) = $this->getAnnotation($proceedingJoinPoint);
 
         /* @var EncryptHandler $encryptHandler*/
         $encryptHandler = App::getBean(EncryptHandler::class); // 因底层bug, 应注入EncryptHandlerInterface
 
-        $before = $annotation->getBefore() ?? $classAnnotation->getBefore() ?? App::getProperties()->get('encrypt')['before'];
+        $before = $this->getAnnotationProperty('before');
         if ($before && method_exists($encryptHandler, $before)){
             $parsedBody = $encryptHandler->$before(request()->raw());
             if ($parsedBody){
@@ -54,7 +55,7 @@ class EncryptAspect
 
         $result = $proceedingJoinPoint->proceed(); // 后期兼容下参数注入
 
-        $after = $annotation->getAfter() ?? $classAnnotation->getAfter() ?? App::getProperties()->get('encrypt')['after'];
+        $after = $this->getAnnotationProperty('after');
         if ($after && method_exists($encryptHandler, $after)){
             $result = $encryptHandler->$after($result);
         }
@@ -62,12 +63,30 @@ class EncryptAspect
         return $result;
     }
 
+    /**
+     * @param ProceedingJoinPoint $proceedingJoinPoint
+     * @return Encrypt[]
+     */
     private function getAnnotation(ProceedingJoinPoint $proceedingJoinPoint)
     {
         $collector = EncryptCollector::getCollector();
+        $class_name = get_class($proceedingJoinPoint->getTarget());
         return [
-            $collector[get_class($proceedingJoinPoint->getTarget())]['classAnnotation'],
-            $collector[get_class($proceedingJoinPoint->getTarget())][$proceedingJoinPoint->getMethod()],
+            $collector[$class_name]['classAnnotation'],
+            $collector[$class_name][$proceedingJoinPoint->getMethod()],
         ];
+    }
+
+    /**
+     * 根据优先级取注解属性
+     * @param string $field
+     * @return mixed
+     */
+    public function getAnnotationProperty(string $field)
+    {
+        $method = 'get'.ucwords($field);
+        return $this->annotation->$method()
+            ?? $this->classAnnotation->$method()
+            ?? App::getProperties()->get('encrypt')[$field];
     }
 }
