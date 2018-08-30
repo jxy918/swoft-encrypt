@@ -6,7 +6,7 @@
 ```php
     'components' => [
         'custom' => [
-            "Swoft\\Encrypt"
+            "Swoft\\Encrypt\\"
         ],
     ],
     'encrypt'      => [
@@ -35,6 +35,7 @@ use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 class EncryptController
 {
     /**
+     * 无前置操作, 后置加密
      * @RequestMapping()
      * @Encrypt(before="")
      * @return array
@@ -45,6 +46,7 @@ class EncryptController
     }
 
     /**
+     * 无前置操作, 后置签名
      * @RequestMapping()
      * @Encrypt(before="", after=Encrypt::AFTER_SIGN)
      * @return array
@@ -55,6 +57,7 @@ class EncryptController
     }
 
     /**
+     * 前置解密, 无后置操作
      * @RequestMapping()
      * @Encrypt(after="")
      * @return array
@@ -65,6 +68,7 @@ class EncryptController
     }
 
     /**
+     * 前置验签, 无后置操作
      * @RequestMapping()
      * @Encrypt(after="", before=Encrypt::BEFORE_VERIFY)
      * @return array
@@ -80,25 +84,3 @@ class EncryptController
 
 前置、后置可设置为空字符串,覆盖低优先级的配置
 > 注解调用时,request()方法里是修改后的,方法注入的`Request $request`是未修改的
-
-## 中间件调用
-`App\Controllers\EncryptController`添加代码
-```php
-    use Swoft\Encrypt\Middleware\EncryptMiddleware;
-    use Swoft\Http\Message\Bean\Annotation\Middleware;
-    use Swoft\Http\Message\Server\Request;
-    ...
-
-    /**
-     * @RequestMapping()
-     * @Middleware(EncryptMiddleware::class)
-     * @param Request $request
-     * @return array
-     */
-    public function middleware(Request $request)
-    {
-        print_R($request->getParsedBody());
-        return ['name' => '小红', 'age' => 6666];
-    }
-```
->中间件调用时,方法注入的`Request $request`是修改后的,`request()`方法获取的则是未操作前的请求对象
