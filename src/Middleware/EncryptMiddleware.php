@@ -48,9 +48,9 @@ class EncryptMiddleware implements MiddlewareInterface
         $response = $handler->handle($request);
 
         /* @var Response $response*/
-        $data = $response->getAttributes()[AttributeEnum::RESPONSE_ATTRIBUTE]; //  因底层bug, 应为 $response->getBody()->getContents()
+        $data = $response->getAttribute(AttributeEnum::RESPONSE_ATTRIBUTE);
         $encryptData = $encryptHandler->encrypt($data);
 
-        return $response->withAttribute(AttributeEnum::RESPONSE_ATTRIBUTE, $encryptData); //  因底层bug, 应为 $response->withContent(base64_encode($encryptData))
+        return $response->withAttribute(AttributeEnum::RESPONSE_ATTRIBUTE, $encryptData);
     }
 }
