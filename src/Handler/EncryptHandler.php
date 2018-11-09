@@ -8,17 +8,12 @@
 
 namespace Swoft\Encrypt\Handler;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Bean\Annotation\Inject;
 use Swoft\Bean\Annotation\Value;
 use Swoft\Encrypt\Mapping\EncryptHandlerInterface;
 use Swoft\Encrypt\SecretKey;
 use Swoft\Exception\Exception;
-use Swoft\Http\Message\Server\Response;
-use Swoft\Http\Message\Stream\SwooleStream;
-use Swoft\Http\Server\AttributeEnum;
 use Swoft\Log\Log;
 
 /**

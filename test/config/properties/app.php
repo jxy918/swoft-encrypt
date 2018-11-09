@@ -11,26 +11,13 @@
 return [
     'version' => '1.0',
     'autoInitBean' => true,
-    'bootScan' => [
-        'Swoft\\Auth' => BASE_PATH . '/../src',
-    ],
     'beanScan' => [
         'Swoft\\Encrypt' => BASE_PATH . '/../src',
-        'SwoftTest\\Auth\\Account'=> BASE_PATH .'/Cases/Account'
+        'SwoftTest\\Testing'=> BASE_PATH .'/Testing'
     ],
-    'I18n' => [
-        'sourceLanguage' => '@root/resources/messages/',
-    ],
-    'env' => 'Base',
     'encrypt'      => [
-        'publicKey' => '@resources/key/rsa_public_key.pem',
-        'privateKey' => '@resources/key/rsa_private_key.pem',
+        'publicKey' => '@resources/rsa_public_key.pub',
+        'privateKey' => '@resources/rsa_private_key.pem',
         'padding' => OPENSSL_PKCS1_PADDING,
     ],
-    'Service' => [
-        'user' => [
-            'timeout' => 3000
-        ]
-    ],
-    'cache' => require dirname(__FILE__) . DS . 'cache.php',
 ];

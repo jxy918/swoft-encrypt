@@ -9,7 +9,10 @@
     "description": "Swoft 加密/签名组件",
     "license": "Apache-2.0",
     "require": {
+        "ext-openssl": "^1.0",
+        "ext-json": "^1.0",
         "swoft/http-server": "^1.0",
+        "swoft/http-message": "^1.0",
         "swoft/framework": "^1.0"
     },
     "autoload": {
@@ -19,13 +22,14 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SwoftTest\\Encrypt\\": "test/Cases"
+            "SwoftTest\\Encrypt\\": "test/Cases",
+            "SwoftTest\\Testing\\": "test/Testing"
         }
     },
     "repositories": [
         {
             "type": "composer",
-            "url": "https://packagist.phpcomposer.com"
+            "url": "https://packagist.laravel-china.org"
         }
     ],
     "require-dev": {
