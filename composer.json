@@ -9,8 +9,8 @@
     "description": "Swoft 加密/签名组件",
     "license": "Apache-2.0",
     "require": {
-        "ext-openssl": "^1.0",
-        "ext-json": "^1.0",
+        "ext-openssl": "*",
+        "ext-json": "*",
         "swoft/http-server": "^1.0",
         "swoft/http-message": "^1.0",
         "swoft/framework": "^1.0"
